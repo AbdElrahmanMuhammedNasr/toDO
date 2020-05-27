@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo/db/database.dart';
 import 'package:todo/formF.dart';
 import 'package:todo/main.dart';
 
@@ -8,6 +9,8 @@ class ToDoesList extends StatefulWidget {
 }
 
 class _ToDoesListState extends State<ToDoesList> {
+  Databaseprovider databaseprovider = Databaseprovider();
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -22,59 +25,66 @@ class _ToDoesListState extends State<ToDoesList> {
                 ));
               }),
           actions: <Widget>[
-            IconButton(icon: Icon(Icons.add), onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) => FormF(),));
-            }),
+            IconButton(
+                icon: Icon(Icons.add),
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => FormF(),
+                  ));
+                }),
           ],
         ),
         body: SafeArea(
-          child: Container(
-            padding: EdgeInsets.all(10),
-            child: ListView.builder(
-                itemCount: 20,
-                itemBuilder: (BuildContext context, int pos) {
-                  return Card(
-                    child: ListTile(
-                      leading: CircleAvatar(
-                        child: Text("P"),
-                      ),
-                      title: Text("data"),
-                      subtitle: Container(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            SizedBox(
-                              height: 5,
+          child: Center(
+            child: FutureBuilder(
+                future: databaseprovider.getTask(),
+                builder: (context, AsyncSnapshot snapshot) {
+                  if (!snapshot.hasData) {
+                    return CircularProgressIndicator();
+                  }
+                  return ListView.builder(
+                      itemCount: snapshot.data.length,
+                      itemBuilder: (BuildContext context, int pos) {
+                        return Card(
+                          child: ListTile(
+                            leading: CircleAvatar(
+                              child: Text("T"),
                             ),
-                            Text(
-                              "f",
-                              overflow: TextOverflow.ellipsis,
+                            title: Text("${snapshot.data[pos]['title']}"),
+                            subtitle: Container(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Text(
+                                    "${snapshot.data[pos]['task']}",
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Text(
+                                    "${snapshot.data[pos]['time']}",
+                                    overflow: TextOverflow.ellipsis,
+                                  )
+                                ],
+                              ),
                             ),
-                            SizedBox(
-                              height: 5,
+                            trailing: IconButton(
+                              icon: Icon(Icons.delete, color: Colors.red,),
+                              onPressed: (){
+                                print(pos+1);
+                                databaseprovider.deleteTask(pos+1);
+                              },
                             ),
-                            Text(
-                              "Dec 12 2020",
-                              overflow: TextOverflow.ellipsis,
-                            )
-                          ],
-                        ),
-                      ),
-                      trailing: Icon(
-                        Icons.delete,
-                        color: Colors.redAccent,
-                      ),
-                    ),
-                  );
+                          ),
+                        );
+                      });
                 }),
           ),
         ),
-        // floatingActionButton: FloatingActionButton(
-        //   onPressed: () {
-        //     print('object');
-        //   },
-        //   child: Icon(Icons.add),
-        // ),
       ),
     );
   }

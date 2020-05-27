@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:todo/Model/task.dart';
+import 'package:todo/ToDoes.dart';
 import 'package:todo/main.dart';
+import 'package:intl/intl.dart';
+
+
+import 'db/database.dart';
 
 class FormF extends StatefulWidget {
   @override
@@ -9,9 +15,16 @@ class FormF extends StatefulWidget {
 class _FormFState extends State<FormF> {
   String _title;
   String _task;
-  DateTime _time;
+  // DateTime _time;
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  // @override
+  // void initState(){
+
+  // }
+
+  Databaseprovider databaseprovider = Databaseprovider();
 
   @override
   Widget build(BuildContext context) {
@@ -36,14 +49,17 @@ class _FormFState extends State<FormF> {
         ],
       ),
       body: Container(
-        margin: EdgeInsets.symmetric(horizontal: 25,vertical: 50),
+        margin: EdgeInsets.symmetric(horizontal: 25, vertical: 50),
         child: Form(
             key: _formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Container(
-                  child: Text('Add new Task',style: TextStyle(fontSize: 20),),
+                  child: Text(
+                    'Add new Task',
+                    style: TextStyle(fontSize: 20),
+                  ),
                 ),
                 TextFormField(
                   decoration: InputDecoration(
@@ -62,6 +78,7 @@ class _FormFState extends State<FormF> {
                   height: 30,
                 ),
                 TextFormField(
+                  maxLines: 2,
                   decoration: InputDecoration(
                     labelText: 'Task',
                   ),
@@ -86,7 +103,18 @@ class _FormFState extends State<FormF> {
                       return;
                     }
                     _formKey.currentState.save();
-                    print(_title);
+
+                    var now = new DateTime.now();
+                    var formatter = new DateFormat('yyyy-MM-dd');
+                    String formatted = formatter.format(now);
+
+                    Task t = new Task({
+                      'title': _title,
+                      'task': _task,
+                      'time': formatted
+                    });
+                    databaseprovider.insertTask(t);
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => ToDoesList(),));
                   },
                 )
               ],

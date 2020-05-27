@@ -60,33 +60,33 @@ class _BodyFoState extends State<BodyFo> {
                         ),
                       ),
                     ]),
-                    TableRow(children: [
-                      GestureDetector(
-                         onTap: () {
-                           Navigator.of(context).push(MaterialPageRoute(builder: (context) => ToDoesList(),));
-                        },
-                        child: Catigory(
-                          type: 'Work',
-                          number: 12,
-                          icon: Icon(Icons.work, color: Colors.blue),
-                        ),
-                      ),
-                    ]),
-                    TableRow(children: [
-                      GestureDetector(
-                         onTap: () {
-                           Navigator.of(context).push(MaterialPageRoute(builder: (context) => ToDoesList(),));
-                        },
-                        child: Catigory(
-                          type: 'Personal',
-                          number: 12,
-                          icon: Icon(
-                            Icons.person,
-                            color: Colors.blue,
-                          ),
-                        ),
-                      ),
-                    ]),
+                    // TableRow(children: [
+                    //   GestureDetector(
+                    //      onTap: () {
+                    //        Navigator.of(context).push(MaterialPageRoute(builder: (context) => ToDoesList(),));
+                    //     },
+                    //     child: Catigory(
+                    //       type: 'Work',
+                    //       number: 12,
+                    //       icon: Icon(Icons.work, color: Colors.blue),
+                    //     ),
+                    //   ),
+                    // ]),
+                    // TableRow(children: [
+                    //   GestureDetector(
+                    //      onTap: () {
+                    //        Navigator.of(context).push(MaterialPageRoute(builder: (context) => ToDoesList(),));
+                    //     },
+                    //     child: Catigory(
+                    //       type: 'Personal',
+                    //       number: 12,
+                    //       icon: Icon(
+                    //         Icons.person,
+                    //         color: Colors.blue,
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ]),
                   ]),
                 ),
               ),

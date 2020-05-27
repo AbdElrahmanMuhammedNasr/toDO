@@ -1,31 +1,43 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:sqflite/sqlite_api.dart';
+import 'package:path/path.dart';
+import 'package:todo/Model/task.dart';
 
-class Databaseprovider{
+class Databaseprovider {
+  static final Databaseprovider _instance = Databaseprovider.internal();
+  factory Databaseprovider() => _instance;
+  Databaseprovider.internal();
 
-  Database _database;
+  static Database _database;
 
-  Future<Database> get database async{
-    
-    if(_database !=null){
+  Future<Database> createDatabae() async {
+    if (_database != null) {
       return _database;
     }
-    _database = await createDatabase();
+    String path = join(await getDatabasesPath(), 'TheDataBase.db');
+    _database = await openDatabase(
+      path,
+      version: 1,
+      onCreate: (Database db, int version) {
+        db.execute(
+            "create table Tasks(id integer primary key autoincrement, title varchar(20), task varchar(200), time varchar(20) )");
+      },
+    );
     return _database;
   }
 
-  Future<Database> createDatabase() async{
-    String path = await getDatabasesPath();
-
-    return await openDatabase(
-      join(path,'task.db'),
-      version: 1,
-      onCreate: (Database database,  int version)async{
-          await database.execute(
-              "CREATE TABLE TASK (ID INTGER PRIMARY KEY, TYPE TEXT ,  TITLE TEXT, TASK TEXT )",
-          );
-      }
-    );
+  Future<int> insertTask(Task task) async {
+    Database db = await createDatabae();
+    return db.insert("Tasks", task.toMap());
   }
 
+  Future<List> getTask() async {
+    Database db = await createDatabae();
+    return db.query('Tasks');
+  }
+
+  Future<void> deleteTask(int id) async {
+    Database db = await createDatabae();
+    db.delete('Tasks', where: 'id = ?', whereArgs: [id]);
+  }
 }
