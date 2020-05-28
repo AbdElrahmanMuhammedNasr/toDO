@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class Catigory extends StatelessWidget {
   
   String type;
-  int number;
+  String number;
   Widget icon;
   Catigory({this.type, this.number,this.icon});
  
@@ -21,7 +21,7 @@ class Catigory extends StatelessWidget {
               child:icon ,
             ),
             Text(type, style: TextStyle(fontSize: 20),),
-            Text("$number"),
+            // Text("${number}"),
           ],
         ),
       ),

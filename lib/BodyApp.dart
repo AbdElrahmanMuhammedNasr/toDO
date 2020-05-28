@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:todo/Cat.dart';
 import 'package:todo/ToDoes.dart';
+import 'package:todo/db/database.dart';
 
 class BodyFo extends StatefulWidget {
   @override
@@ -8,6 +9,9 @@ class BodyFo extends StatefulWidget {
 }
 
 class _BodyFoState extends State<BodyFo> {
+
+    Databaseprovider databaseprovider = Databaseprovider();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,7 +56,7 @@ class _BodyFoState extends State<BodyFo> {
                         },
                         child: Catigory(
                           type: 'All',
-                          number: 12,
+                          // number: '${databaseprovider.getNumberTask()}',
                           icon: Icon(
                             Icons.apps,
                             color: Colors.blue,

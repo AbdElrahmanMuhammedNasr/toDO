@@ -75,8 +75,10 @@ class _ToDoesListState extends State<ToDoesList> {
                             trailing: IconButton(
                               icon: Icon(Icons.delete, color: Colors.red,),
                               onPressed: (){
-                                print(pos+1);
-                                databaseprovider.deleteTask(pos+1);
+                                databaseprovider.deleteTask(snapshot.data[pos]['id']);
+                                setState(() {
+                                  databaseprovider.getTask();
+                                });
                               },
                             ),
                           ),

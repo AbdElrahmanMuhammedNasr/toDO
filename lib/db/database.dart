@@ -40,4 +40,12 @@ class Databaseprovider {
     Database db = await createDatabae();
     db.delete('Tasks', where: 'id = ?', whereArgs: [id]);
   }
+
+  Future <int> getNumberTask() async {
+    Database db = await createDatabae();
+    // int count = Sqflite.firstIntValue(await db.rawQuery('SELECT COUNT(*) FROM table_name'));
+
+    // print( 'count  is ${count}');
+    // return count;
+  }
 }
