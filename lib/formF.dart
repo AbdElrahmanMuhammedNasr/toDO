@@ -4,7 +4,6 @@ import 'package:todo/ToDoes.dart';
 import 'package:todo/main.dart';
 import 'package:intl/intl.dart';
 
-
 import 'db/database.dart';
 
 class FormF extends StatefulWidget {
@@ -15,8 +14,7 @@ class FormF extends StatefulWidget {
 class _FormFState extends State<FormF> {
   String _title;
   String _task;
-  // DateTime _time;
-
+  String _character;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   // @override
@@ -78,7 +76,7 @@ class _FormFState extends State<FormF> {
                   height: 30,
                 ),
                 TextFormField(
-                  maxLines: 2,
+                  // maxLines: 2,
                   decoration: InputDecoration(
                     labelText: 'Task',
                   ),
@@ -91,6 +89,19 @@ class _FormFState extends State<FormF> {
                     _task = val;
                   },
                 ),
+                // ListTile(
+                //   title: const Text(''),
+                //   leading: Radio(
+                //     value: 1,
+                //     groupValue: _character,
+                //     onChanged: ( value) {
+                //       setState(() {
+                //         _character = value;
+                //       });
+                //     },
+                //   ),
+                  
+                // ),
                 SizedBox(
                   height: 20,
                 ),
@@ -108,13 +119,12 @@ class _FormFState extends State<FormF> {
                     var formatter = new DateFormat('yyyy-MM-dd');
                     String formatted = formatter.format(now);
 
-                    Task t = new Task({
-                      'title': _title,
-                      'task': _task,
-                      'time': formatted
-                    });
+                    Task t = new Task(
+                        {'title': _title, 'task': _task, 'time': formatted});
                     databaseprovider.insertTask(t);
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => ToDoesList(),));
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => ToDoesList(),
+                    ));
                   },
                 )
               ],
